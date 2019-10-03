@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_mueble_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/item_mueble_imagen"
+        android:contentDescription="@string/item_mueble_imagen"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/background_gray"
+        app:layout_constraintBottom_toTopOf="@+id/texto_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_insert_photo_black_24dp" />
+
+    <TextView
+        android:id="@+id/texto_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/texto_2"
+        app:layout_constraintStart_toStartOf="@+id/item_mueble_imagen"
+        app:layout_constraintTop_toBottomOf="@+id/item_mueble_imagen"
+        tools:text="Nombre:" />
+
+    <TextView
+        android:id="@+id/item_mueble_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="@string/item_mueble_nombre_del_mueble"
+        app:layout_constraintStart_toEndOf="@+id/texto_1"
+        app:layout_constraintTop_toTopOf="@+id/texto_1" />
+
+    <TextView
+        android:id="@+id/texto_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/texto_3"
+        app:layout_constraintStart_toStartOf="@+id/texto_1"
+        app:layout_constraintTop_toBottomOf="@+id/texto_1"
+        tools:text="Categoria:" />
+
+    <TextView
+        android:id="@+id/item_mueble_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="@string/item_mueble_categoria_del_mueble"
+        app:layout_constraintStart_toEndOf="@+id/texto_2"
+        app:layout_constraintTop_toTopOf="@+id/texto_2" />
+
+    <TextView
+        android:id="@+id/texto_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/item_mueble_imagen"
+        app:layout_constraintStart_toStartOf="@+id/texto_2"
+        app:layout_constraintTop_toBottomOf="@+id/texto_2"
+        tools:text="Precio: $" />
+
+    <TextView
+        android:id="@+id/item_mueble_descripción"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/item_mueble_precio"
+        app:layout_constraintStart_toEndOf="@+id/texto_3"
+        app:layout_constraintTop_toTopOf="@+id/texto_3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

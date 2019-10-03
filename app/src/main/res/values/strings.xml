@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Muebleria_app</string>
+    <string name="item_mueble_imagen">Imagen</string>
+    <string name="item_mueble_nombre_del_mueble">Nombre del mueble</string>
+    <string name="item_mueble_categoria_del_mueble">Categorlía del mueble</string>
+    <string name="item_mueble_precio">Precio</string>
 </resources>
