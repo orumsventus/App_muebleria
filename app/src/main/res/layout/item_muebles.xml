@@ -8,12 +8,13 @@
 
     <ImageView
         android:id="@+id/item_mueble_imagen"
-        android:contentDescription="@string/item_mueble_imagen"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/background_gray"
+        android:contentDescription="@string/item_mueble_imagen"
         app:layout_constraintBottom_toTopOf="@+id/texto_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:hint="@string/item_mueble_nombre_del_mueble"
+        android:hint="Nombre no disponible"
         app:layout_constraintStart_toEndOf="@+id/texto_1"
         app:layout_constraintTop_toTopOf="@+id/texto_1" />
 
@@ -47,14 +48,14 @@
         app:layout_constraintBottom_toTopOf="@+id/texto_3"
         app:layout_constraintStart_toStartOf="@+id/texto_1"
         app:layout_constraintTop_toBottomOf="@+id/texto_1"
-        tools:text="Categoria:" />
+        tools:text="Descripción:" />
 
     <TextView
-        android:id="@+id/item_mueble_categoria"
+        android:id="@+id/item_mueble_descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:hint="@string/item_mueble_categoria_del_mueble"
+        android:hint="Descripcion no disponible"
         app:layout_constraintStart_toEndOf="@+id/texto_2"
         app:layout_constraintTop_toTopOf="@+id/texto_2" />
 
@@ -69,10 +70,10 @@
         tools:text="Precio: $" />
 
     <TextView
-        android:id="@+id/item_mueble_descripción"
+        android:id="@+id/item_mueble_precio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/item_mueble_precio"
+        android:hint="No hay precio disponible"
         app:layout_constraintStart_toEndOf="@+id/texto_3"
         app:layout_constraintTop_toTopOf="@+id/texto_3" />
 

@@ -1,5 +1,6 @@
 package com.example.muebleria_app;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
@@ -9,27 +10,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.muebleria_app.adapter.AdapterListaMuebles;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterListaMuebles.OnMuebleSelectedListener{
     // VARIABLES PARA EL LOGUEO
     private FirebaseAuth auth;
     private static final int RC_SING_IN = 123;
+    private FirebaseFirestore firestore;
+    private Query myQuery;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    /////// ONCREATE ///////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +46,18 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-
         if (isUserLogged()){
-            Toast.makeText(this,"esta logueado",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Bienvenido",Toast.LENGTH_SHORT).show();
         }else {
             signIn();
         }
-
+//        initFirestore();
+//        initRecyclerView();
 
     }
 
-    // INICIAR SESION
+
+    /////// INICIAR SESION /////////////////////////////////////////////////////////////////////////
     public void signIn(){
         // PROBEDORES DE AUTENTICACION
         List<AuthUI.IdpConfig> providers = Arrays.asList(
@@ -64,6 +74,27 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /////// INICIALIZAR FIRESTORE //////////////////////////////////////////////////////////////////
+    public void initFirestore(){
+        firestore = FirebaseFirestore.getInstance();
+        myQuery = firestore.collection("muebles")
+                .orderBy("nombre",Query.Direction.DESCENDING)
+                .limit(50);
+    }
+
+    /////// INICIALIZAR EL RECYCLERVIEW ////////////////////////////////////////////////////////////
+//    public void initRecyclerView(){
+//        recyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
+//        recyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        AdapterListaMuebles adapterListaMuebles = new AdapterListaMuebles(myQuery, this);
+//        recyclerView.setAdapter(adapterListaMuebles);
+//
+//    }
+
+    // PREGUNTAR SI EL USUARIO ESTA LOGUEADO
     public boolean isUserLogged(){
         if (auth.getCurrentUser() != null){
             return true;
@@ -72,18 +103,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-//        recyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-
-/*
-    }
-
-
-    */
 
     @Override
     protected void onStart() {
@@ -110,7 +129,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_informacion:
+                Toast.makeText(this,"Aplicación hecha para prueba de EKS Solutions", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_cerrar_sesion:
+                AuthUI.getInstance().signOut(this);
+                signIn();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void accion_1(View view) {
         Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_muebleDetalleFragment);
+    }
+
+    @Override
+    public void onMuebleSlected(DocumentSnapshot mueble) {
+        Toast.makeText(this,"clicik", Toast.LENGTH_SHORT).show();
     }
 }
