@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +42,7 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager_2;
 
     private TextView texto;
     MuebleAdapter adapter;
@@ -72,8 +74,9 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
     public void initRecyclerView(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.main_recycler_view);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        layoutManager_2 = new GridLayoutManager(getContext(), 2);
+//        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager_2);
         FirestoreRecyclerOptions<Mueble> options = new FirestoreRecyclerOptions.Builder<Mueble>()
                 .setQuery(myQuery, Mueble.class)
                 .build();
@@ -82,8 +85,8 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
         adapter = new MuebleAdapter(options);
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-        DividerItemDecoration decoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
-        recyclerView.addItemDecoration(decoration);
+//        DividerItemDecoration decoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+//        recyclerView.addItemDecoration(decoration);
     }
 
     @Override

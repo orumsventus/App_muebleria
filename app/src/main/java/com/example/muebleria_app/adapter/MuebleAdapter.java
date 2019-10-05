@@ -23,7 +23,7 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
     @Override
     public MuebleHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new MuebleHolder(inflater.inflate(R.layout.item_muebles,parent,false));
+        return new MuebleHolder(inflater.inflate(R.layout.item_mueble,parent,false));
     }
 
     @Override
