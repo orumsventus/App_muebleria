@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
     private RecyclerView.LayoutManager layoutManager;
 
     private TextView texto;
+    MuebleAdapter adapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -56,9 +58,6 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initFirestore();
         initRecyclerView(view);
-        texto = view.findViewById(R.id.texto_prueba);
-        texto.setText("Si funciona");
-
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -80,9 +79,23 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
                 .build();
 
 //        AdapterListaMuebles adapterListaMuebles = new AdapterListaMuebles(options);
-        MuebleAdapter adapter = new MuebleAdapter(options);
+        adapter = new MuebleAdapter(options);
+        adapter.startListening();
         recyclerView.setAdapter(adapter);
-        Toast.makeText(getContext(),"alo",Toast.LENGTH_SHORT).show();
+        DividerItemDecoration decoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+        recyclerView.addItemDecoration(decoration);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override

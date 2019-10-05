@@ -19,16 +19,16 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
         super(options);
     }
 
-    @Override
-    protected void onBindViewHolder(@NonNull MuebleHolder holder, int position, @NonNull Mueble model) {
-        holder.bind(model);
-    }
-
     @NonNull
     @Override
     public MuebleHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new MuebleHolder(inflater.inflate(R.layout.item_muebles,parent,false));
+    }
+
+    @Override
+    protected void onBindViewHolder(@NonNull MuebleHolder holder, int position, @NonNull Mueble model) {
+        holder.bind(model);
     }
 
 
@@ -40,14 +40,14 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
         public MuebleHolder(View itemView){
             super(itemView);
             nombre = itemView.findViewById(R.id.item_mueble_nombre);
-            descipcion = itemView.findViewById(R.id.item_mueble_precio);
+            descipcion = itemView.findViewById(R.id.item_mueble_descripcion);
             precio = itemView.findViewById(R.id.item_mueble_precio);
         }
 
         public void bind(Mueble mueble){
-            nombre.setText(mueble.getNombre());
-            descipcion.setText(mueble.getDescripcion());
-            precio.setText(mueble.getPrecio());
+            nombre.setText("Nombre: " + mueble.getNombre());
+            descipcion.setText("Descripción: " + mueble.getDescripcion());
+            precio.setText("Precio: $" + mueble.getPrecio());
         }
     }
 }

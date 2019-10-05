@@ -27,7 +27,7 @@ import com.google.firebase.firestore.Query;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterListaMuebles.OnMuebleSelectedListener{
+public class MainActivity extends AppCompatActivity{
     // VARIABLES PARA EL LOGUEO
     private FirebaseAuth auth;
     private static final int RC_SING_IN = 123;
@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements AdapterListaMuebl
         }else {
             signIn();
         }
-//        initFirestore();
-//        initRecyclerView();
-
     }
 
 
@@ -73,26 +70,6 @@ public class MainActivity extends AppCompatActivity implements AdapterListaMuebl
                 RC_SING_IN
         );
     }
-
-    /////// INICIALIZAR FIRESTORE //////////////////////////////////////////////////////////////////
-    public void initFirestore(){
-        firestore = FirebaseFirestore.getInstance();
-        myQuery = firestore.collection("muebles")
-                .orderBy("nombre",Query.Direction.DESCENDING)
-                .limit(50);
-    }
-
-    /////// INICIALIZAR EL RECYCLERVIEW ////////////////////////////////////////////////////////////
-//    public void initRecyclerView(){
-//        recyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        AdapterListaMuebles adapterListaMuebles = new AdapterListaMuebles(myQuery, this);
-//        recyclerView.setAdapter(adapterListaMuebles);
-//
-//    }
 
     // PREGUNTAR SI EL USUARIO ESTA LOGUEADO
     public boolean isUserLogged(){
@@ -150,12 +127,4 @@ public class MainActivity extends AppCompatActivity implements AdapterListaMuebl
         return super.onOptionsItemSelected(item);
     }
 
-    public void accion_1(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_muebleDetalleFragment);
-    }
-
-    @Override
-    public void onMuebleSlected(DocumentSnapshot mueble) {
-        Toast.makeText(this,"clicik", Toast.LENGTH_SHORT).show();
-    }
 }

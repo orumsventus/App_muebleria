@@ -73,6 +73,7 @@
         android:id="@+id/item_mueble_precio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:hint="No hay precio disponible"
         app:layout_constraintStart_toEndOf="@+id/texto_3"
         app:layout_constraintTop_toTopOf="@+id/texto_3" />
