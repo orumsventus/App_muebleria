@@ -6,10 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.muebleria_app.Entidades.Mueble;
 import com.example.muebleria_app.R;
-import com.example.muebleria_app.adapter.AdapterListaMuebles;
 import com.example.muebleria_app.adapter.MuebleAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,11 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MainFragment extends Fragment implements AdapterListaMuebles.OnMuebleSelectedListener{
+public class MainFragment extends Fragment {
     // VARIABLES PARA EL LOGUEO
     private FirebaseAuth auth;
     private static final int RC_SING_IN = 123;
@@ -75,18 +67,14 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
         recyclerView = (RecyclerView) view.findViewById(R.id.main_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager_2 = new GridLayoutManager(getContext(), 2);
-//        layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager_2);
         FirestoreRecyclerOptions<Mueble> options = new FirestoreRecyclerOptions.Builder<Mueble>()
                 .setQuery(myQuery, Mueble.class)
                 .build();
 
-//        AdapterListaMuebles adapterListaMuebles = new AdapterListaMuebles(options);
         adapter = new MuebleAdapter(options);
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-//        DividerItemDecoration decoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(decoration);
     }
 
     @Override
@@ -101,8 +89,4 @@ public class MainFragment extends Fragment implements AdapterListaMuebles.OnMueb
         adapter.stopListening();
     }
 
-    @Override
-    public void onMuebleSlected(DocumentSnapshot mueble) {
-        Toast.makeText(getContext(),"clicik", Toast.LENGTH_SHORT).show();
-    }
 }
