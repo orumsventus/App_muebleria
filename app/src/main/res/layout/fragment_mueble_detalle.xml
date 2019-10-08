@@ -119,10 +119,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mueble_detalle_precio"
-                android:onClick="guardar"/>
+                android:onClick="guardar"
+                tools:ignore="OnClick" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/mueble_detalle_boton_imagen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add_a_photo_black_24dp"

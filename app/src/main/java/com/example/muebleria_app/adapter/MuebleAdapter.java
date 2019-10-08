@@ -90,7 +90,7 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),mueble.getNombre() + " + "+ position + " \nid: "+ id, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(),mueble.getNombre() + " + "+ position + " \nid: "+ id, Toast.LENGTH_SHORT).show();
                     Bundle bundle = new Bundle();
                     bundle.putString("id",id);
                     Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_muebleDetalleFragment,bundle);

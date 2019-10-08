@@ -1,6 +1,12 @@
 package com.example.muebleria_app.fragments;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,14 +14,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.muebleria_app.Entidades.Mueble;
 import com.example.muebleria_app.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -30,6 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +52,12 @@ public class MuebleDetalleFragment extends Fragment {
     TextView descripcion;
     TextView precio;
     Button boton_guardar;
+    ImageView imagen;
+    ImageButton boton_imagen;
+
+    private static final int PICK_FROM_CAMERA = 1;
+    private static final int PICK_FROM_GALLARY = 2;
+
     private static final String TAG = "TAG.........................................TAG...........::__";
 
     public MuebleDetalleFragment() {
@@ -57,6 +75,24 @@ public class MuebleDetalleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        nombre = (TextView) getView().findViewById(R.id.mueble_detalle_nombre);
+        descripcion = (TextView) getView().findViewById(R.id.mueble_detalle_descripcion);
+        precio = (TextView) getView().findViewById(R.id.mueble_detalle_precio);
+        boton_guardar = (Button) getView().findViewById(R.id.mueble_detalle_boton_guardar);
+        imagen = (ImageView) getView().findViewById(R.id.mueble_detalle_imagen);
+        boton_imagen = (ImageButton) getView().findViewById(R.id.mueble_detalle_boton_imagen);
+
+        boton_imagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"funciona",Toast.LENGTH_SHORT).show();
+                Intent buscar_imagen = new Intent(Intent.ACTION_GET_CONTENT);
+                buscar_imagen.setType("image/*");
+                startActivityForResult(buscar_imagen,PICK_FROM_GALLARY);
+
+            }
+        });
+
         try {
             if ( getArguments().getString("id")!= null ){
                 /////// EDITAR /////////////////////////////////////////////////////////////////////
@@ -69,15 +105,15 @@ public class MuebleDetalleFragment extends Fragment {
                     public void onComplete(@NonNull Task < DocumentSnapshot > task) {
                         if (task.isSuccessful()) {
 
-                            nombre = (TextView) getView().findViewById(R.id.mueble_detalle_nombre);
-                            descripcion = (TextView) getView().findViewById(R.id.mueble_detalle_descripcion);
-                            precio = (TextView) getView().findViewById(R.id.mueble_detalle_precio);
-                            boton_guardar = (Button) getView().findViewById(R.id.mueble_detalle_boton_guardar);
-
                             DocumentSnapshot doc = task.getResult();
+
                             nombre.setText(doc.get("nombre").toString());
                             descripcion.setText(doc.get("descripcion").toString());
                             precio.setText(doc.get("precio").toString());
+                            String url_inner = doc.get("imagen").toString();
+                            Glide.with(getView().getContext())
+                                    .load(url_inner)
+                                    .into(imagen);
 
                             boton_guardar.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -120,16 +156,9 @@ public class MuebleDetalleFragment extends Fragment {
             /////// AGREGAR ////////////////////////////////////////////////////////////////////////
             getActivity().setTitle("Agregar un mueble");
 
-            nombre = (TextView) getView().findViewById(R.id.mueble_detalle_nombre);
-            descripcion = (TextView) getView().findViewById(R.id.mueble_detalle_descripcion);
-            precio = (TextView) getView().findViewById(R.id.mueble_detalle_precio);
-            boton_guardar = (Button) getView().findViewById(R.id.mueble_detalle_boton_guardar);
-
             boton_guardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    Toast.makeText(getContext(),"hols",Toast.LENGTH_SHORT).show();
-
                     Map<String, Object> mueble_nuevo = new HashMap<>();
                     mueble_nuevo.put("nombre", nombre.getText().toString());
                     mueble_nuevo.put("descripcion", descripcion.getText().toString());
@@ -153,6 +182,28 @@ public class MuebleDetalleFragment extends Fragment {
                             });
                 }
             });
+
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case PICK_FROM_GALLARY:
+                if (requestCode == Activity.RESULT_OK){
+                    try {
+                        final Uri imageUri = data.getData();
+                        final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imagen.setImageBitmap(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
         }
     }
 }
