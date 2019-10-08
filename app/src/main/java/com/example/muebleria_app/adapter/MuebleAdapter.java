@@ -1,6 +1,7 @@
 package com.example.muebleria_app.adapter;
 
 import android.net.http.SslCertificate;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,29 +12,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.muebleria_app.Entidades.Mueble;
 import com.example.muebleria_app.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapter.MuebleHolder>
-        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(v.getContext(),"1", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-//        Toast.makeText(,"2", Toast.LENGTH_SHORT).show();
-        return false;
-    }
+public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapter.MuebleHolder>{
 
     public MuebleAdapter(@NonNull FirestoreRecyclerOptions<Mueble> options){
         super(options);
@@ -50,9 +39,6 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
     protected void onBindViewHolder(@NonNull MuebleHolder holder, int position, @NonNull Mueble model) {
         String id = getSnapshots().getSnapshot(position).getId();
         holder.bind(model, position, id);
-//        String id = this.getSnapshots().getSnapshot(position).getId();
-//        Toast.makeText(,id, Toast.LENGTH_SHORT).show();
-
     }
 
 
@@ -78,8 +64,10 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-//                    String id = MuebleAdapter.getSnapshots().getSnapshot(position).getId();
                     Toast.makeText(v.getContext(),mueble.getNombre() + " + "+ position + " \nid: "+ id, Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id",id);
+                    Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_muebleDetalleFragment,bundle);
                 }
             });
             mas_menu.setOnClickListener(new View.OnClickListener() {

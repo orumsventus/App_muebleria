@@ -11,6 +11,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -51,6 +54,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.0.2'
 
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.api-client:google-api-client:1.25.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

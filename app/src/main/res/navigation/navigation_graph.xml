@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/muebleDetalleFragment"
-        android:name="com.example.muebleria_app.MuebleDetalleFragment"
+        android:name="com.example.muebleria_app.fragments.MuebleDetalleFragment"
         android:label="fragment_mueble_detalle"
         tools:layout="@layout/fragment_mueble_detalle" />
 </navigation>

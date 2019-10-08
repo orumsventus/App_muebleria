@@ -3,6 +3,8 @@ package com.example.muebleria_app;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity{
             signIn();
         }
     }
-
 
     /////// INICIAR SESION /////////////////////////////////////////////////////////////////////////
     public void signIn(){
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.menu_agregar:
+                Navigation.findNavController(findViewById(R.id.nav_host_fragment)).navigate(R.id.action_mainFragment_to_muebleDetalleFragment);
+                break;
             case R.id.menu_informacion:
                 Toast.makeText(this,"Aplicación hecha para prueba de EKS Solutions", Toast.LENGTH_SHORT).show();
                 break;

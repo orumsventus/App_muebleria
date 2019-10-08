@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_agregar"
+        android:title="Agregar Mueble" />
+
+    <item
         android:id="@+id/menu_informacion"
         android:title="Información" />
 
