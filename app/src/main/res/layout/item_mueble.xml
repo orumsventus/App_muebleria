@@ -28,10 +28,11 @@
                 android:id="@+id/item_mueble_imagen"
                 android:layout_width="0dp"
                 android:layout_height="146dp"
+                android:background="@color/background_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/sym_def_app_icon" />
+                app:srcCompat="@drawable/ic_insert_photo_black_24dp" />
 
             <TextView
                 android:id="@+id/item_mueble_nombre"

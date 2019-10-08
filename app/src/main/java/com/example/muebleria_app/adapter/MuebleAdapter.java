@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,11 +17,20 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.muebleria_app.Entidades.Mueble;
 import com.example.muebleria_app.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.nio.file.ReadOnlyFileSystemException;
 
 public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapter.MuebleHolder>{
 
@@ -47,6 +57,7 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
         TextView descipcion;
         TextView precio;
         View mas_menu;
+        ImageView imagen;
 
         public MuebleHolder(View itemView){
             super(itemView);
@@ -54,12 +65,27 @@ public class MuebleAdapter extends FirestoreRecyclerAdapter<Mueble, MuebleAdapte
             descipcion = itemView.findViewById(R.id.item_mueble_descripcion);
             precio = itemView.findViewById(R.id.item_mueble_precio);
             mas_menu = itemView.findViewById(R.id.item_mueble_boton_mas);
+            imagen = itemView.findViewById(R.id.item_mueble_imagen);
         }
 
         public void bind(final Mueble mueble, final int position, final String id){
             nombre.setText("Nombre: " + mueble.getNombre());
             descipcion.setText("Descripción: " + mueble.getDescripcion());
             precio.setText("Precio: $" + mueble.getPrecio());
+            final String url = "";
+            //CARGAR IMAGEN
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference reference = db.collection("muebles").document(id);
+            reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot doc = task.getResult();
+                    String url_inner = doc.get("imagen").toString();
+                    Glide.with(itemView.getContext())
+                            .load(url_inner)
+                            .into(imagen);
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

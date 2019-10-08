@@ -62,9 +62,6 @@ public class MuebleDetalleFragment extends Fragment {
                 /////// EDITAR /////////////////////////////////////////////////////////////////////
                 getActivity().setTitle("Editar información");
                 final String id = getArguments().getString("id");
-
-                Toast.makeText(getContext(),"------ ", Toast.LENGTH_SHORT).show();
-
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 DocumentReference reference = db.collection("muebles").document(id);
                 reference.get().addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
