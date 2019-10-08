@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,71 +55,53 @@ public class MuebleDetalleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nombre = (TextView) getView().findViewById(R.id.mueble_detalle_nombre);
-        descripcion = (TextView) getView().findViewById(R.id.mueble_detalle_descripcion);
-        precio = (TextView) getView().findViewById(R.id.mueble_detalle_precio);
-        boton_guardar = (Button) getView().findViewById(R.id.mueble_detalle_boton_guardar);
-
-        boton_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"hols",Toast.LENGTH_SHORT).show();
-
-                Map<String, Object> city = new HashMap<>();
-                city.put("nombre", nombre.getText().toString());
-                city.put("descripcion", descripcion.getText().toString());
-                city.put("precio", precio.getText().toString());
+        try {
+            if ( getArguments().getString("id")!= null ){
+                /////// EDITAR /////////////////////////////////////////////////////////////////////
+                getActivity().setTitle("Editar información");
+                String id = getArguments().getString("id");
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("muebles")
-                        .add(city)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-                            }
-                        });
+
+
             }
-        });
+        }catch (NullPointerException e){
+            /////// AGREGAR ////////////////////////////////////////////////////////////////////////
+            getActivity().setTitle("Agregar un mueble");
 
-//        String id = getArguments().getString("id");
-//        if (id != null){
-//            FirebaseFirestore db = FirebaseFirestore.getInstance();
-//            Query query = db.collection("muebles/"+id);
-//            DocumentReference document = db.collection("muebles").document(id);
-//            document.get().toString();
+            nombre = (TextView) getView().findViewById(R.id.mueble_detalle_nombre);
+            descripcion = (TextView) getView().findViewById(R.id.mueble_detalle_descripcion);
+            precio = (TextView) getView().findViewById(R.id.mueble_detalle_precio);
+            boton_guardar = (Button) getView().findViewById(R.id.mueble_detalle_boton_guardar);
 
-//        }
-    }
+            boton_guardar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Toast.makeText(getContext(),"hols",Toast.LENGTH_SHORT).show();
 
-    public void guardar(View view) {
-        Toast.makeText(getContext(),"hols",Toast.LENGTH_SHORT).show();
+                    Map<String, Object> city = new HashMap<>();
+                    city.put("nombre", nombre.getText().toString());
+                    city.put("descripcion", descripcion.getText().toString());
+                    city.put("precio", precio.getText().toString());
 
-        Map<String, Object> city = new HashMap<>();
-        city.put("nombre", nombre.getText());
-        city.put("descripcion", descripcion.getText());
-        city.put("precio", precio.getText());
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("muebles")
-                .add(city)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("muebles")
+                            .add(city)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Navigation.findNavController(v).navigateUp();
+                                    Toast.makeText(getContext(),"Mueble agregado exitosamente", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(),"Hubo un problema y no se pudo agregar", Toast.LENGTH_SHORT).show();
+                                    Navigation.findNavController(v).navigateUp();}
+                            });
+                }
+            });
+        }
     }
 }

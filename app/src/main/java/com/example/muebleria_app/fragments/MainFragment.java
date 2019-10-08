@@ -81,6 +81,7 @@ public class MainFragment extends Fragment {
     public void onStart() {
         super.onStart();
         adapter.startListening();
+        getActivity().setTitle("Muebleria");
     }
 
     @Override
